@@ -54,16 +54,6 @@ with open('data.csv', mode='w', newline='') as file:
 
 
 
-
-#load_ma.sort()
-#print(load_ma[-1])        
-#plt.plot(t_date, load_ma,marker = 'o')
-#plt.title("Real Time plot")
-#plt.xlabel("Time")
-#plt.ylabel("Current mA")
-
-#plt.show()
-
 # The y values.  A numpy array is used here,
 # but a python list could also be used.
 y = np.array(load_ma)
@@ -118,10 +108,19 @@ point_start_2 = start_j
 start_T = point_start_1
 stop_T = point_start_2
 period = (float(x[stop_T])-float(x[start_T]))
-print(f'Period in seconds: {round(period,2)} transmission time {round(float(x[point_stop_1])-float(x[point_start_1]),2)}')
+print(f'Period in seconds: {round(period,2)} ON {round(float(float(x[point_stop_1])-x[point_start_1]),2)} SLEEP {round(float(float(x[point_start_2])-x[point_stop_1]),2)}')
 # Compute the area using the composite trapezoidal rule.
 area = trapz(y[int(start_T):int(stop_T)], x[int(start_T):int(stop_T)])
-print(f'area = {round(area/period,3)} mA')
+print(f'consumed = {round(area/period,3)} mA')
 
 mean_mA = np.mean(y[start_T:stop_T])
-print(f'mean: {round(mean_mA,3)} mA')
+print(f'mean consumed: {round(mean_mA,3)} mA')
+
+
+       
+plt.plot( x[start_T:stop_T], y[start_T:stop_T],marker = 'o')
+plt.title("Real Time plot")
+plt.xlabel("Time")
+plt.ylabel("Current mA")
+
+plt.show()
